@@ -1,33 +1,22 @@
 # rust-evicting-cache
 
-🦀 A bounded in-memory cache library written in Rust with pluggable eviction policies (LRU, FIFO, LFU), time-to-live (TTL) support, and thread safety.
-
----
-
-## 🚀 Project Goals
-
-This project explores key systems programming concepts through the implementation of a production-ready in-memory cache:
-
-- 🔁 **Eviction Policies**: Support for LRU, FIFO, LFU (pluggable strategy pattern)
-- 🧠 **Custom Bounded Size**: Based on item count (memory bounds optional later)
-- ⏱️ **TTL Support**: Optional per-key expiration with cleanup
-- 🔐 **Thread-Safety**: Safe access across threads using `Mutex` or `RwLock`
-- 📦 **Extensible Design**: Easy to add logging hooks or external storage fallback
+🦀 A bounded, in-memory cache written in Rust with configurable eviction policies (LRU, FIFO, LFU), optional TTL expiration, and thread safety.
 
 ---
 
 ## 📦 Features
 
-- ✅ Simple API: `put`, `get`, `evict`, `clear`
-- ⚙️ Configurable capacity
-- 🔁 Swappable eviction policy via traits
-- ⏲️ Optional TTL expiration
-- 🧵 Thread-safe variant using `dashmap` or manual locking
-- 🪵 Eviction hooks (e.g., logging or callback support)
+- 💻 Simple API: `put`, `get`, `evict`, `clear`
+- 🔁 **Eviction Policies**: Pluggable strategies (LRU, FIFO, LFU)
+- ⚙️ **Custom Bounded Size**: Limit cache by item count (or memory usage, optional)
+- ⏱️ **TTL Support**: Optional time-to-live expiration per entry
+- 🧵 + 🔐 **Thread-Safety**: Safe across threads and concurrent access using locking 
+- 🪵 **Eviction Hooks**: Optional callbacks/logging for evicted items
+- 🧱 **Extensible**: Easily add metrics, serialization, or fallback to external storage
 
 ---
 
-## ✨ Usage Example
+## 💡 Usage Example
 
 ```rust
 use rust_evicting_cache::Cache;
@@ -41,7 +30,45 @@ fn main() {
 
     println!("{:?}", cache.get(&"a")); // Some(1)
 
-    cache.put("d", 4); // Triggers eviction (if over capacity)
+    cache.put("d", 4); // Triggers eviction if capacity exceeded
 
-    println!("{:?}", cache.get(&"b")); // Might be None if evicted
+    println!("{:?}", cache.get(&"b")); // May be None if evicted
 }
+```
+
+---
+
+## 🔧 Build & Run
+```rust
+git clone https://github.com/your-username/rust-evicting-cache
+cd rust-evicting-cache
+cargo run       # if you include a main.rs
+cargo test      # to run unit tests
+```
+---
+
+## 🗺️ Roadmap
+- Base cache with fixed capacity ✅
+- Add LRU policy
+- Add FIFO / LFU policy
+- TTL support with background cleanup
+- Eviction callbacks/logging
+- Thread-safe implementation
+- Optional benchmarking
+
+---
+## 🧑‍💻 Built With
+- Rust
+- HashMap, RwLock, dashmap, chrono
+- Testing via cargo test
+
+---
+## 📘 Summary
+This project demonstrates key systems programming concepts in Rust, including:
+
+- Ownership and borrowing
+- Concurrency and locking
+- Trait-based design patterns
+- TTL expiration and cleanup logic
+
+Originally inspired by cache problems discussed in distributed systems, backend engineering, and performance-critical settings.
