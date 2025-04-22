@@ -27,16 +27,6 @@ This project explores key systems programming concepts through the implementatio
 
 ---
 
-## 🧠 Why This Exists
-
-This project was built as a learning exercise to:
-- Understand memory safety, ownership, and concurrency in Rust
-- Gain experience with systems design patterns
-- Prepare for interviews at high-performance computing or trading firms (e.g., Jane Street, HFTs)
-- Reinforce core concepts around cache design and real-world performance tradeoffs
-
----
-
 ## ✨ Usage Example
 
 ```rust
