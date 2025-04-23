@@ -1,0 +1,10 @@
+[package]
+name = "rusty_cache"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dashmap = "5"
+chrono = "0.4"
+log = "0.4"
+env_logger = "0.10"
