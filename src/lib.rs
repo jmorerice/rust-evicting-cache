@@ -2,6 +2,21 @@
 // Future support will include eviction policies, TTL expiration, and thread safety.
 
 use std::collections::HashMap;
+use std::rc::Rc;
+use std::cell::RefCell;
+
+type Link<K> = Option<Rc<RefCell<Node<K>>>>;
+
+pub struct LruList<K> {
+    head: Link<K>,                      // Most recently used
+    tail: Link<K>,                      // Least recently used
+}
+
+struct Node<K> {
+    key: K,
+    prev: Link<K>,
+    next: Link<K>,
+}
 
 // Trait for pluggable eviction policies
 pub trait EvictionPolicy<K> {
@@ -20,6 +35,37 @@ where
     capacity: usize,
     store: HashMap<K, V>,
     policy: P
+}
+
+impl <K: Clone> LruList<K> {
+    pub fn new() -> Self {
+        LruList {
+            head: None,
+            tail: None,
+        }
+    }
+
+    pub fn push_front(&mut self, key: K) -> Rc<RefCell<Node<K>>> {
+        let new_node = Rc::new(RefCell::new(Node {
+            key,
+            prev: None,
+            next: self.head.clone(),
+        }));
+
+        match self.head.take() {
+            Some(old_head) => {
+                old_head.borrow_mut().prev = Some(new_node.clone());
+                self.head = Some(new_node.clone());
+            }
+            None => {
+                // If empty, both head and tail point to new node
+                self.tail = Some(new_node.clone());
+                self.head = Some(new_node.clone());
+            }
+        }
+
+        new_node
+    }
 }
 
 impl<K, V, P> Cache<K, V, P> 
