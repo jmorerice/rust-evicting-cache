@@ -1,4 +1,4 @@
-# rust-evicting-cache
+# rusty-cache
 
 🦀 A bounded, in-memory cache written in Rust with configurable eviction policies (LRU, FIFO, LFU), optional TTL expiration, and thread safety.
 
