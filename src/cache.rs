@@ -1,32 +1,42 @@
 use std::collections::HashMap;
+use crate::eviction::EvictionPolicy;
 
-// Generic Cache structure with fixed capacity
-pub struct Cache<K, V> {
+pub struct Cache<K, V, P>
+where
+    K: Eq + std::hash::Hash + Clone,
+    P: EvictionPolicy<K>
+{
     capacity: usize,
     store: HashMap<K, V>,
+    policy: P,
 }
 
-impl<K: std::cmp::Eq + std::hash::Hash, V> Cache<K, V> {
-    /// Creates a new cache with the given capacity
-    pub fn new(capacity: usize) -> Self {
-        Cache {
+impl<K, V, P> Cache<K, V, P> 
+where 
+    K: Eq + std::hash::Hash + Clone,
+    P: EvictionPolicy<K>,
+{
+    pub fn new(capacity: usize, policy: P) -> Self {
+        Self {
             capacity,
             store: HashMap::new(),
+            policy,
         }
     }
 
-    /// Gets a reference to a value by key, if it exists
     pub fn get(&mut self, key: &K) -> Option<&V> {
+        self.policy.record_access(key);
         self.store.get(key)
-        // TODO: For LRU, update access order here
     }
 
-    /// Inserts a key-value pair. Evicts if over capacity.
     pub fn put(&mut self, key: K, value: V) {
-        if self.store.len() >= self.capacity {
-            // TODO: implement eviction policy (e.g., FIFO, LRU, LFU)
+        if self.store.len() >= self.capacity && !self.store.contains_key(&key) {
+            if let Some(evicted_key) = self.policy.evict() {
+                self.store.remove(&evicted_key);
+            }
         }
-
+        
+        self.policy.record_insertion(&key);
         self.store.insert(key, value);
     }
 }
