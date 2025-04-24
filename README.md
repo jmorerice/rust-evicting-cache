@@ -9,7 +9,7 @@
 - 💻 Simple API: `put`, `get`, `evict`, `clear`
 - 🔁 **Eviction Policies**: Pluggable strategies (LRU, FIFO, LFU)
 - ⚙️ **Custom Bounded Size**: Limit cache by item count (or memory usage, optional)
-- ⏱️ **TTL Support**: Optional time-to-live expiration per entry
+- ⏳ **TTL Support**: Optional time-to-live expiration per entry
 - 🧵 + 🔐 **Thread-Safety**: Safe across threads and concurrent access using locking 
 - 🪵 **Eviction Hooks**: Optional callbacks/logging for evicted items
 - 🧱 **Extensible**: Easily add metrics, serialization, or fallback to external storage
@@ -49,7 +49,7 @@ cargo test      # to run unit tests
 
 ## 🗺️ Roadmap
 - Base cache with fixed capacity ✅
-- Add LRU policy
+- Add LRU policy ✅
 - Add FIFO / LFU policy
 - TTL support with background cleanup
 - Eviction callbacks/logging
