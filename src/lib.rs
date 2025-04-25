@@ -5,4 +5,4 @@ pub mod cache;
 pub mod eviction;
 
 pub use cache::Cache;
-pub use eviction::{EvictionPolicy, lru::LruPolicy};
+pub use eviction::{EvictionPolicy, lru::LruPolicy, fifo::FifoPolicy};
