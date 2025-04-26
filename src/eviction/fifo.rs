@@ -18,7 +18,7 @@ impl <K: Clone + Eq> EvictionPolicy<K> for FifoPolicy<K> {
         self.queue.push_back(key.clone());
     }
     // Do nothing, does not apply to FIFO
-    fn record_access(&mut self, key: &K) {}
+    fn record_access(&mut self, _key: &K) {}
 
     fn evict(&mut self) -> Option<K> {
         self.queue.pop_front()
