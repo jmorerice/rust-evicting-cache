@@ -11,8 +11,16 @@ impl<K: Clone + Eq> FifoPolicy<K> {
             queue: VecDeque::new(),
         }
     } 
-    // TODO: implement EvictionPolicy<K> for FifoPolicy<K>
-    // - record_insertion: push_back key
-    // - record_access: probably do nothing (FIFO ignores access)
-    // - evict: pop_front the oldest key
+}
+
+impl <K: Clone + Eq> EvictionPolicy<K> for FifoPolicy<K> {
+    fn record_insertion(&mut self, key: &K) {
+        self.queue.push_back(key.clone());
+    }
+    // Do nothing, does not apply to FIFO
+    fn record_access(&mut self, key: &K) {}
+
+    fn evict(&mut self) -> Option<K> {
+        self.queue.pop_front()
+    }
 }
