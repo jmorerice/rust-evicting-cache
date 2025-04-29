@@ -1,4 +1,4 @@
-use rusty_cache::{Cache, LruPolicy, FifoPolicy, LfuPolicy};
+use rusty_cache::{Cache, LruPolicy, FifoPolicy};
 
 fn main() {
     println!("Testing LRU Cache:");
@@ -8,7 +8,7 @@ fn main() {
     test_fifo();
 
     println!("\nTesting LFU Cache:");
-    test_lfu();
+    //test_lfu();
 }
 
 fn test_lru() {
@@ -45,20 +45,20 @@ fn test_fifo() {
     println!("{:?}", cache.get(&"c")); // Some(3)
 }
 
-fn test_lfu() {
-    let mut cache = Cache::new(2, LfuPolicy::new());
+// fn test_lfu() {
+//     let mut cache = Cache::new(2, LfuPolicy::new());
 
-    cache.put("a", 1);
-    cache.put("b", 2);
+//     cache.put("a", 1);
+//     cache.put("b", 2);
 
-    // Access 'a' twice to make it more frequent
-    println!("{:?}", cache.get(&"a"));
-    println!("{:?}", cache.get(&"a"));
+//     // Access 'a' twice to make it more frequent
+//     println!("{:?}", cache.get(&"a"));
+//     println!("{:?}", cache.get(&"a"));
 
-    cache.put("c", 3); // Should evict "b" (less frequently used)
+//     cache.put("c", 3); // Should evict "b" (less frequently used)
 
-    // Check evictions
-    println!("{:?}", cache.get(&"b")); // None
-    println!("{:?}", cache.get(&"a")); // Some(1)
-    println!("{:?}", cache.get(&"c")); // Some(3)
-}
+//     // Check evictions
+//     println!("{:?}", cache.get(&"b")); // None
+//     println!("{:?}", cache.get(&"a")); // Some(1)
+//     println!("{:?}", cache.get(&"c")); // Some(3)
+// }

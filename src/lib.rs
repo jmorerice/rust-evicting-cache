@@ -3,6 +3,7 @@
 
 pub mod cache;
 pub mod eviction;
+pub mod linked_list;
 
 pub use cache::Cache;
-pub use eviction::{EvictionPolicy, lru::LruPolicy, fifo::FifoPolicy, lfu::LfuPolicy};
+pub use eviction::{EvictionPolicy, lru::LruPolicy, fifo::FifoPolicy};

@@ -1,48 +1,47 @@
-use std::collections::HashMap;
-use std::hash::Hash;
+// use std::collections::HashMap;
+// use std::hash::Hash;
+// use std::cell::RefCell;
+// use std::rc::Rc;
+// use crate::linked_list::{LinkedList, Node};
 
-use super::EvictionPolicy;
+// use super::EvictionPolicy;
 
-pub struct LfuPolicy<K> {
-    counts : HashMap<K, usize>,
-}
+// pub struct LfuPolicy<K> {
+//     freq_map: HashMap<usize, LinkedList<K>>,
+//     counts: HashMap<K, (usize, Rc<RefCell<Node<K>>>)>,
+//     min_freq: usize,
+// }
 
-impl<K:Clone + Eq + Hash> LfuPolicy<K> {
-    pub fn new() -> Self {
-        Self {
-            counts: HashMap::new(),
-        }
-    }
-}
+// impl<K: Eq + Hash + Clone> LfuPolicy<K> {
+//     pub fn new() -> Self {
+//         Self {
+//             freq_map: HashMap::new(),
+//             counts: HashMap::new(),
+//             min_freq: 0,
+//         }
+//     }
+// }
 
-//TO DO: can be optimized (ex: min-heap (Priority Queue), Frequency Buckets)
-impl <K:Clone + Eq + Hash> EvictionPolicy<K> for LfuPolicy<K> {
-    fn record_access(&mut self, key: &K) {
-        if let Some(count) = self.counts.get_mut(key) {
-            *count += 1;
-        }
-    }
+// impl<K: Eq + Hash + Clone> EvictionPolicy<K> for LfuPolicy<K> {
+//     fn record_access(&mut self, key: &K) {
+//         // TODO:
+//         // - Get count and node from counts
+//         // - Remove node from old freq list
+//         // - If old freq list empty and min_freq == old freq, update min_freq
+//         // - Insert into new freq list with count + 1
+//     }
 
-    fn record_insertion(&mut self, key: &K) {
-        self.counts.insert(key.clone(), 1);
-    }
+//     fn record_insertion(&mut self, key: &K) {
+//         // TODO:
+//         // - Insert key into freq_map[1]
+//         // - Update counts map
+//         // - Set min_freq = 1
+//     }
 
-    fn evict(&mut self) -> Option<K> {
-        let mut min_count = usize::MAX;
-        let mut key_to_evict = None;
-
-        for (key, count) in self.counts.iter(){
-            if *count < min_count {
-                min_count = *count;
-                key_to_evict = Some(key.clone());
-            }
-        }
-
-        if let Some(key) = key_to_evict {
-            self.counts.remove(&key);
-            Some(key)
-        } else {
-            None
-        }
-    }
-}
+//     fn evict(&mut self) -> Option<K> {
+//         // TODO:
+//         // - Find key from freq_map[min_freq]
+//         // - Remove from freq_map and counts
+//         // - If freq_map[min_freq] empty after, update min_freq
+//     }
+// }
